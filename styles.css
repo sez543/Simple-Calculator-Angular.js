@@ -1,0 +1,79 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.body {
+  border: 1px solid darkgray;
+  display: inline-block;
+  margin: 10px;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  background-color: lightblue;
+  width: 300px;
+  height: 150px;
+}
+
+.output {
+  text-align: right;
+  padding: 10px 10px;
+}
+
+.output h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 200;
+  color: rgb(80, 80, 80);
+}
+
+.misc {
+  background-color: rgb(201, 108, 108);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  padding-bottom: 5px;
+}
+
+.dial {
+  background-color: lightcoral;
+  width: 300px;
+  user-select: none;
+}
+
+.wrap {
+  display: flex;
+}
+
+[class*="button"] {
+  display: inline-block;
+  background-color: rgb(226, 115, 115);
+  border: 1px solid darkred;
+  cursor: pointer;
+  text-align: center;
+  font-size: 23px;
+  margin: 3px;
+  padding: 10px 0;
+  width: 60px;
+}
+
+[class*="button"]:hover {
+  background-color: rgb(196, 99, 99);
+}
+
+.numpad {
+  display: inline-flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  padding-right: 0;
+}
+.operations {
+  display: inline-flex;
+  flex-direction: column;
+  padding: 10px;
+  padding-left: 0;
+}

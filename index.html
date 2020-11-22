@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <title>First Angular App</title>
+  </head>
+  <body>
+    <div ng-app="Calculator" ng-controller="Main">
+      <div class="body">
+        <div class="screen">
+          <div class="output">
+            <h2 class="equation">{{history}}</h2>
+            <h1 class="current">{{result}}</h1>
+          </div>
+        </div>
+        <div class="dial">
+          <div class="misc">
+            <div class="button" ng-click="History()">
+              <i class="fa fa-history fa-sm" aria-hidden="true"></i>
+            </div>
+            <div class="button" ng-click="ClearE()">CE</div>
+            <div class="button" ng-click="Clear()">C</div>
+            <div
+              class="button"
+              ng-click="Backspace()"
+              style="margin-left: 10px;"
+            >
+              <i class="fas fa-backspace fa-sm" aria-hidden="true"></i>
+            </div>
+          </div>
+          <div class="wrap">
+            <div class="numpad">
+              <div
+                class="num_button"
+                ng-repeat="x in digits"
+                ng-click="AddNumber(x)"
+              >
+                {{x}}
+              </div>
+              <div class="button" ng-click="AddNumber('.')">.</div>
+              <div class="button" ng-click="Equals()">=</div>
+            </div>
+            <div class="operations">
+              <div
+                class="button"
+                ng-repeat="y in operations"
+                ng-click="Operation(y)"
+              >
+                {{y}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      var scr = angular.module("Calculator", []);
+
+      scr.controller("Main", function ($scope) {
+        $scope.digits = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0];
+        $scope.operations = ["+", "-", "*", "/"];
+        $scope.history = "";
+        $scope.result = "0";
+        $scope.log = "";
+        $scope.float = false;
+        $scope.done = false;
+
+        $scope.AddNumber = function (number) {
+          if ($scope.done) {
+            $scope.done = false;
+            $scope.Clear();
+            $scope.AddNumber(number);
+          } else {
+            if ($scope.result.toString().length < 17) {
+              if (number == ".") {
+                if ($scope.float == false) {
+                  $scope.float = true;
+                  $scope.result += ".";
+                }
+              } else {
+                if ($scope.result == "0") {
+                  $scope.result = number.toString();
+                } else {
+                  $scope.result += number;
+                }
+              }
+            }
+          }
+        };
+
+        $scope.Backspace = function () {
+          if ($scope.done) {
+            $scope.Clear();
+          } else {
+            if ($scope.result.length == 1) {
+              $scope.result = "0";
+              return;
+            }
+            $scope.result = $scope.result.substring(
+              0,
+              $scope.result.length - 1
+            );
+          }
+        };
+
+        $scope.Clear = function () {
+          $scope.float = false;
+          $scope.done = false;
+          $scope.result = "0";
+          $scope.history = "";
+        };
+
+        $scope.ClearE = function () {
+          if ($scope.done) {
+            $scope.Clear();
+          } else {
+            $scope.result = "0";
+          }
+        };
+
+        $scope.Operation = function (op) {
+          $scope.history = $scope.result + " " + op;
+          $scope.result = "0";
+          $scope.done = false;
+        };
+
+        $scope.Equals = function () {
+          if (!$scope.done) {
+            if ($scope.history.length > 0) {
+              $scope.history += " " + $scope.result;
+              $scope.result = eval($scope.history);
+              $scope.history += " =";
+              $scope.log += $scope.history + " " + $scope.result + "\n";
+              $scope.done = true;
+            }
+          }
+        };
+      });
+    </script>
+  </body>
+</html>
